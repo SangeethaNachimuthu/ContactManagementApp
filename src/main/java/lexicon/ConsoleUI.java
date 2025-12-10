@@ -150,7 +150,17 @@ public class ConsoleUI {
         }
     }
 
+    /*
+    This method displays all the contacts and
+    display message if there is no contacts.
+     */
     public void displayAllContacts() {
-        System.out.println(contacts);
+        if (contacts.isEmpty()) {
+            System.out.println("No contacts to display.");
+        }
+        for (int i = 0; i < contacts.size(); i++) {
+            System.out.println( (i+1) + ". " + contacts.get(i).getName()
+                    + " (" + contacts.get(i).getMobileNo() + ")" );
+        }
     }
 }
