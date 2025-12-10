@@ -12,9 +12,12 @@ necessary information.
 public class ConsoleUI {
 
     Scanner scan = new Scanner(System.in);
-    ContactDAO contactDAO = new ContactDAO();
-    ArrayList<String> contacts = new ArrayList<>();
+    ArrayList<ContactDAO> contacts = new ArrayList<>();
 
+    /*
+    This method runs first, based on the user option,
+    it will perform the corresponding action.
+     */
     public void start() {
 
         boolean runApp = true;
@@ -29,7 +32,7 @@ public class ConsoleUI {
                     addContact();
                     break;
                 case "2":
-                    searchByName();
+                    searchContact();
                     break;
                 case "3":
                     displayAllContacts();
@@ -63,29 +66,88 @@ public class ConsoleUI {
      */
     public void addContact() {
 
+        ContactDAO contactDAO = new ContactDAO();
+
         System.out.println("Enter the Name: ");
         contactDAO.setName(scan.next());
 
         System.out.println("Enter Mobile Number: ");
         contactDAO.setMobileNo(scan.next());
 
-        contactDAO.setCombineNameMobileNo(contactDAO.getName() +"|"+
-                contactDAO.getMobileNo());
+        contactDAO.setCombineNameMobileNo(contactDAO.getName() +"|"+ contactDAO.getMobileNo());
 
-        //Rejecting duplicate entries
-        if (contacts.contains(contactDAO.getCombineNameMobileNo())) {
+        //Checking for duplicate entries
+        boolean exists = false;
+        for (ContactDAO c : contacts) {
+            if (c.getMobileNo().equals(contactDAO.getMobileNo())) {
+                exists = true;
+                break;
+            }
+        }
+        if (exists) {
             System.out.println("Contact already exists.");
         } else {
-            contacts.add(contactDAO.getCombineNameMobileNo());
+            contacts.add(contactDAO);
             System.out.println("Contact added successfully!");
         }
 
-        //System.out.println(contacts);
-
     }
 
-    public void searchByName() {
+    /*
+    This method used to search the contact either using name or mobile number.
+     */
+    void searchContact() {
+        System.out.println("a. Search by Name");
+        System.out.println("b. Search by Mobile Number");
+        String searchOption = scan.next();
+        if (searchOption.equalsIgnoreCase("a"))
+            searchByName();
+        else if (searchOption.equalsIgnoreCase("b")) {
+            searchByMobileNumber();
+        } else {
+            System.out.println("Invalid option, try again.");
+        }
+    }
 
+    /*
+    This method search the contact using name and
+    displays all the contacts matches with the name.
+     */
+    public void searchByName() {
+        System.out.println("Enter the Name: ");
+        String searchName = scan.next();
+        boolean found = false;
+        for (ContactDAO dao : contacts) {
+            if(dao.getName().equalsIgnoreCase(searchName)) {
+                System.out.println("Name: " + dao.getName() +
+                        ", Mobile: " + dao.getMobileNo());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Contact not found");
+        }
+    }
+
+    /*
+    This method search the contact using mobile number and
+    displays all the contacts matches with the name.
+     */
+    public void searchByMobileNumber() {
+        System.out.println("Enter Mobile Number:");
+        String searchMobNo = scan.next();
+        boolean found = false;
+        for (ContactDAO dao : contacts) {
+            if (dao.getMobileNo().equals(searchMobNo)) {
+                System.out.println("Name: " + dao.getName() +
+                        ", Mobile: " + dao.getMobileNo());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Contact not found");
+        }
     }
 
     public void displayAllContacts() {

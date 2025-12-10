@@ -10,7 +10,6 @@ public class ContactDAO {
     String mobileNo;
     String combineNameMobileNo;
 
-
     public String getName() {
         return name;
     }
@@ -33,5 +32,10 @@ public class ContactDAO {
 
     public void setCombineNameMobileNo(String combineNameMobileNo) {
         this.combineNameMobileNo = combineNameMobileNo;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Mobile: " + mobileNo;
     }
 }
