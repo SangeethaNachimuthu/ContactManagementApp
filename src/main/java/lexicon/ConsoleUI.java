@@ -24,7 +24,7 @@ public class ConsoleUI {
 
         while (runApp) {
             displayMainMenu();
-            System.out.println("Choose an option: ");
+            System.out.print("Choose an option: ");
             String option = scan.next();
 
             switch (option) {
@@ -54,10 +54,12 @@ public class ConsoleUI {
      */
     public void displayMainMenu() {
         System.out.println("=== Contact Management ===");
+        System.out.println();
         System.out.println("1. Add Contact");
         System.out.println("2. Search by Name");
         System.out.println("3. Display All Contacts");
         System.out.println("0. Exit");
+        System.out.println();
     }
 
     /*
@@ -68,10 +70,10 @@ public class ConsoleUI {
 
         ContactDAO contactDAO = new ContactDAO();
 
-        System.out.println("Enter the Name: ");
+        System.out.print("Enter the Name: ");
         contactDAO.setName(scan.next());
 
-        System.out.println("Enter Mobile Number: ");
+        System.out.print("Enter Mobile Number: ");
         contactDAO.setMobileNo(scan.next());
 
         contactDAO.setCombineNameMobileNo(contactDAO.getName() +"|"+ contactDAO.getMobileNo());
@@ -85,10 +87,10 @@ public class ConsoleUI {
             }
         }
         if (exists) {
-            System.out.println("Contact already exists.");
+            System.out.println("Contact already exists.\n");
         } else {
             contacts.add(contactDAO);
-            System.out.println("Contact added successfully!");
+            System.out.println("Contact added successfully!\n");
         }
 
     }
