@@ -1,6 +1,8 @@
 package lexicon;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /*
@@ -119,11 +121,13 @@ public class ConsoleUI {
         System.out.println("Enter the Name: ");
         String searchName = scan.next();
         boolean found = false;
-        for (ContactDAO dao : contacts) {
-            if(dao.getName().equalsIgnoreCase(searchName)) {
-                System.out.println("Name: " + dao.getName() +
-                        ", Mobile: " + dao.getMobileNo());
-                found = true;
+        if (!contacts.isEmpty()) {
+            for (ContactDAO dao : contacts) {
+                if (dao.getName().equalsIgnoreCase(searchName)) {
+                    System.out.println("Name: " + dao.getName() +
+                            ", Mobile: " + dao.getMobileNo());
+                    found = true;
+                }
             }
         }
         if (!found) {
@@ -139,12 +143,14 @@ public class ConsoleUI {
         System.out.println("Enter Mobile Number:");
         String searchMobNo = scan.next();
         boolean found = false;
-        for (ContactDAO dao : contacts) {
-            if (dao.getMobileNo().equals(searchMobNo)) {
-                System.out.println("Name: " + dao.getName() +
-                        ", Mobile: " + dao.getMobileNo());
-                found = true;
-                break;
+        if (!contacts.isEmpty()) {
+            for (ContactDAO dao : contacts) {
+                if (dao.getMobileNo().equals(searchMobNo)) {
+                    System.out.println("Name: " + dao.getName() +
+                            ", Mobile: " + dao.getMobileNo());
+                    found = true;
+                    break;
+                }
             }
         }
         if (!found) {
@@ -160,6 +166,14 @@ public class ConsoleUI {
         if (contacts.isEmpty()) {
             System.out.println("No contacts to display.");
         }
+        for (int i = 0; i < contacts.size(); i++) {
+            System.out.println( (i+1) + ". " + contacts.get(i).getName()
+                    + " (" + contacts.get(i).getMobileNo() + ")" );
+        }
+
+        //Sorted contacts alphabetically by Name.
+        Collections.sort(contacts, Comparator.comparing(ContactDAO::getName));
+        System.out.println("Sorted by Name: ");
         for (int i = 0; i < contacts.size(); i++) {
             System.out.println( (i+1) + ". " + contacts.get(i).getName()
                     + " (" + contacts.get(i).getMobileNo() + ")" );
