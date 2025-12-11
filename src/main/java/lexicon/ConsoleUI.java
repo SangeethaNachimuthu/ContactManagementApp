@@ -39,6 +39,9 @@ public class ConsoleUI {
                 case "3":
                     displayAllContacts();
                     break;
+                case "4":
+                    deleteContacts();
+                    break;
                 case "0":
                     System.out.println("Thanks for using the App. Bye.");
                     runApp = false;
@@ -60,6 +63,7 @@ public class ConsoleUI {
         System.out.println("1. Add Contact");
         System.out.println("2. Search by Name");
         System.out.println("3. Display All Contacts");
+        System.out.println("4. Delete Contacts");
         System.out.println("0. Exit");
         System.out.println();
     }
@@ -172,11 +176,58 @@ public class ConsoleUI {
         }
 
         //Sorted contacts alphabetically by Name.
-        Collections.sort(contacts, Comparator.comparing(ContactDAO::getName));
+        //Collections.sort(contacts, Comparator.comparing(ContactDAO::getName));
+        contacts.sort(Comparator.comparing(ContactDAO::getName));
         System.out.println("Sorted by Name: ");
         for (int i = 0; i < contacts.size(); i++) {
             System.out.println( (i+1) + ". " + contacts.get(i).getName()
                     + " (" + contacts.get(i).getMobileNo() + ")" );
+        }
+    }
+
+    /*
+    This method used to delete the contact as per user's wish.
+     */
+    public void deleteContacts() {
+        if (contacts.isEmpty()) {
+            System.out.println("No contacts to delete.");
+        }
+        System.out.print("Enter the Name to delete: ");
+        String deleteName = scan.next();
+        ArrayList<ContactDAO> matchedList = new ArrayList<>();
+
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).getName().equalsIgnoreCase(deleteName)) {
+                matchedList.add(contacts.get(i));
+            }
+        }
+
+        if (matchedList.isEmpty()) {
+            System.out.println("No contacts found.");
+        }
+
+        for (int i = 0; i < matchedList.size(); i++) {
+            System.out.println((i + 1) + ". " + matchedList.get(i).getName()
+                    + " (" + matchedList.get(i).getMobileNo() + ")");
+        }
+
+        System.out.print("Enter index to delete the contact: ");
+        int choice = scan.nextInt();
+
+        if (choice <= 0 || choice > matchedList.size()) {
+            System.out.println("Invalid selection.");
+        } else {
+
+            ContactDAO indexToDelete = matchedList.get(choice - 1);
+
+            System.out.print("Are you sure to delete the contact? (Yes/No): ");
+            String deleteForSure = scan.next();
+            if (deleteForSure.equalsIgnoreCase("Yes")) {
+                contacts.remove(indexToDelete);
+                System.out.println("Contact deleted successfully!");
+            } else {
+                System.out.println("Deletion cancelled.");
+            }
         }
     }
 }
