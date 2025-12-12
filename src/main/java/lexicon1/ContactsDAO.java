@@ -143,7 +143,7 @@ public class ContactsDAO {
     public void sortAllContacts() {
         int index = 0;
         if (contactList.isEmpty()) {
-            System.out.println("No contacts to display.");
+            System.out.println("No contact available.");
         } else {
             Collections.sort(contactList);
             for (String entry : contactList) {
@@ -155,5 +155,51 @@ public class ContactsDAO {
                 index++;
             }
         }
+    }
+
+    /*
+    This method used to delete the contact as per user's wish.
+     */
+    public void deleteContact() {
+
+        System.out.println("Enter the Name to delete: ");
+        String deleteContact = scan.next();
+
+        boolean found = false;
+        ArrayList<String> matchedContacts = new ArrayList<>();
+        for (String entry : contactList) {
+            String[] splitting = entry.split("\\|");
+            String names = splitting[0];
+            if (names.equalsIgnoreCase(deleteContact)) {
+                matchedContacts.add(entry);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Contact not found");
+        }
+
+        System.out.println("Matching contacts: ");
+        for (int i = 0; i < matchedContacts.size(); i++) {
+            System.out.println((i + 1) + ". " + matchedContacts.get(i));
+        }
+
+        System.out.print("Enter index to delete the contact: ");
+        int choice = scan.nextInt();
+
+        if (choice <= 0 || choice > matchedContacts.size()) {
+            System.out.println("Invalid selection.");
+        } else {
+            String indexToDelete = matchedContacts.get(choice - 1);
+            System.out.print("Are you sure to delete the contact? (Yes/No): ");
+            String deleteForSure = scan.next();
+            if (deleteForSure.equalsIgnoreCase("Yes")) {
+                contactList.remove(indexToDelete);
+                System.out.println("Contact deleted successfully!");
+            } else {
+                System.out.println("Deletion cancelled.");
+            }
+        }
+        System.out.println();
     }
 }

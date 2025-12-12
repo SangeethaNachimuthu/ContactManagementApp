@@ -37,6 +37,9 @@ public class ConsoleBasedUI {
                 case "4":
                     contactsDAO.sortAllContacts();
                     break;
+                case "5":
+                    contactsDAO.deleteContact();
+                    break;
                 case "0":
                     runApp = false;
                     System.out.print("Thanks for using the App. Bye.");
@@ -57,7 +60,7 @@ public class ConsoleBasedUI {
         System.out.println("2. Search Contact");
         System.out.println("3. Display All Contacts");
         System.out.println("4. Sort All Contacts");
-        System.out.println("5. Delete Contacts");
+        System.out.println("5. Delete Contact");
         System.out.println("0. Exit");
         System.out.println();
     }
